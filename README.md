@@ -10,7 +10,7 @@ In this way, batch_exporter allows you to regularly fetch remote batch job resul
 
 The batch_exporter container image is designed to be used as a base image (used in the `FROM` line) of bespoke Dockerfiles that add scripts or other programs to fetch and transform unique classes of batch data (e.g. "refrigerator_batch_exporter").
 
-## Usage
+## Docker Image
 
 Pulling this image from our private GCR registry requires prior configuration of `gcloud`. An introduction to how to configure `gcloud` for `docker pull` is mentioned [here](https://github.com/cisco-cx/batch_exporter/tree/master/sandboxes/of#start-all-dockerized-services).
 
@@ -30,30 +30,26 @@ DOCKER_TAG=${DOCKER_TAG:-0.1.0} docker-compose up
 
 ## Configuration
 
-TODO
+While default configuration files are built into the Docker image, you may bind-mount your own files over them as needed.
 
-The most important configuration files are:
+### env.sh
 
-* ~~[todo.yaml](./todo.yaml) description goes here~~
+Because supervisord is used to manage multiple processes in the batch_exporter container, [env.sh](./env.sh) is used as the central environment variable configuration file. Variables exported in [env.sh](./env.sh) should be accessible in scripts like [node_exporter.sh](./node_exporter.sh) and [batch.sh](./batch.sh).
 
-While default configuration files are built into the Docker image, you may bind mount your own files over them.
+Please see the contents of [env.sh](./env.sh) for specific details about it.
 
-## Development Notes
+## Remastering the Docker Image
 
-### From another container within a docker-compose network
+*TL;DR: Using batch_exporter in your own foo_exporter.*
 
-```
-TODO
-```
+batch_exporter's goal is to be an ideal base image for your own bespoke Prometheus metrics batch exporters. In short, all you need to do is change a few files and publish your own Docker image (e.g. `your-docker-repo/batch_exporter_foo`).
 
-### From the Host of a docker-compose network
+More specifcially, to build upon batch_exporter, define your own `env.sh`, `batch.sh` in a new git repo. Then add an extensible `Dockerfile` like this:
 
 ```
-TODO
-```
+FROM docker.io/ciscocx/batch_exporter
 
-## From localhost of the container itself
-
-```
-TODO
+WORKDIR /app
+COPY batch.sh .
+COPY env.sh .
 ```
