@@ -1,14 +1,13 @@
 version: "2.4"
 services:
-  snmptrapd:
-    image: docker.io/ciscocx/snmptrapd:${DOCKER_TAG}
-    cap_add:
-    - NET_BIND_SERVICE
+  batch_exporter:
+    image: docker.io/ciscocx/batch_exporter:${DOCKER_TAG}
     network_mode: host
-    restart: always
+    #restart: always  ## FYI: supervisord is set to exit 0 if one of the processes it manages dies.
+    environment:
+      - SUPERVISORLOGLEVEL=info
+    volumes:
+      - batch_collector_data:/data:rw
 
-    ## These are optional...
-    # volumes:
-    # - ./snmptrapd/snmp.conf:/etc/snmp/snmp.conf:ro
-    # - ./snmptrapd/snmptrapd.conf:/app/snmptrapd.conf:ro
-    # - ./snmptrapd/filebeat.yml:/app/filebeat.yml:ro
+volumes:
+  batch_collector_data: {}

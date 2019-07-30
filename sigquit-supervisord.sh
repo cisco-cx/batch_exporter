@@ -5,7 +5,9 @@
 ##
 set -euo pipefail
 
+printf "READY\n"
+
 while read line; do
-  echo "Event: ${line}" >&2;
-  kill -SIGQUIT $PPID
+  echo "Processing Event: ${line}" >&2;
+  kill -SIGQUIT ${PPID}
 done < /dev/stdin
