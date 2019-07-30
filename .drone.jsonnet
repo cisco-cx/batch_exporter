@@ -1,5 +1,5 @@
 local config = {
-  name: 'snmptrapd',
+  name: 'batch_exporter',
   registry: 'docker.io',
   repo: 'ciscocx',
 };
