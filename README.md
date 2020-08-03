@@ -12,13 +12,9 @@ The batch_exporter container image is designed to be used as a base image (used 
 
 ## Docker Image
 
-Pulling this image from our private GCR registry requires prior configuration of `gcloud`. An introduction to how to configure `gcloud` for `docker pull` is mentioned [here](https://github.com/cisco-cx/batch_exporter/tree/master/sandboxes/of#start-all-dockerized-services).
-
 ```bash
-docker pull docker.io/ciscocx/batch_exporter:${DOCKER_TAG}  # Requires pre-existing gcloud config.
+docker pull docker.io/ciscocx/batch_exporter:${DOCKER_TAG}
 ```
-
-Tags: https://console.cloud.google.com/gcr/images/ciscocx/ASIA/batch_exporter
 
 ### Docker Compose example
 
